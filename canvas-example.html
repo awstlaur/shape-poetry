@@ -31,7 +31,7 @@
 	
 
 		Caman(realCanvas, img, function(){
-			this.seive(0);
+			//this.seive(0);
 			this.render(renderCallback);
 		});
 
@@ -54,13 +54,22 @@
 	          // loop through each column
 	          for(var x = 0; x < width; x++) {
 	            var red = data[((width * y) + x) * 4];
-	            bitmap[x][y] = (red > 0) ? 1 : 0;
-	            // var green = data[((width * y) + x) * 4 + 1];
-	            // var blue = data[((width * y) + x) * 4 + 2];
-	            // var alpha = data[((width * y) + x) * 4 + 3];
+	            var green = data[((width * y) + x) * 4 + 1];
+	            var blue = data[((width * y) + x) * 4 + 2];
+	            var alpha = data[((width * y) + x) * 4 + 3];
+	            var value = brightnessSeive({r: red, g: green, b: blue, a: alpha}).r;
+	            if(value == 0){
+	            	bitmap[x][y] = 1;
+	            	//console.log(x,y);	      
+	            }else if(value == 255){
+	            	bitmap[x][y] = 0;
+	            }else{
+	            	bitmap[x][y] = -1;
+	            	console.log('seive failure!');
+	            }
 	          }
 	        }
-			console.log(bitmap);
+			//console.log(bitmap);
 		}
 	}
 	</script>
