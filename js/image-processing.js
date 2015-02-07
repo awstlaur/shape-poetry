@@ -7,3 +7,21 @@ function brightness(rgba){
 		rgba.b * rgba.b * 0.068
 	);
 }
+
+function brightnessSeive(rgba, threshold){
+	var white = 255;
+	var black = 0;
+	var bright = brightness(rgba);
+	// console.log(rgba);
+	// console.log('bright', bright);
+	if(bright > threshold || bright == 255){
+		rgba.r = white;
+		rgba.g = white;
+		rgba.b = white;
+	}else{
+		rgba.r = black;
+		rgba.g = black;
+		rgba.b = black;
+	}
+	return rgba;
+}

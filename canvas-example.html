@@ -16,19 +16,7 @@
 			var white = 255;
 			var black = 0;
 			this.process('seive', function(rgba){
-				var bright = brightness(rgba);
-				// console.log(rgba);
-				// console.log('bright', bright);
-				if(bright > threshold || bright == 255){
-					rgba.r = white;
-					rgba.g = white;
-					rgba.b = white;
-				}else{
-					rgba.r = black;
-					rgba.g = black;
-					rgba.b = black;
-				}
-				return rgba;
+				return brightnessSeive(rgba, threshold);
 			});
 		});
 		//load svg into a canvas		
@@ -37,16 +25,50 @@
 		var phantomCanvas = document.getElementById('phantomCanvas');
 		var img = phantomCanvas.toDataURL('image/png');
 
-		Caman('#canvas', img, function(){
-			//this.seive(0);
-			this.render();
+
+		var realCanvas = document.getElementById('canvas');
+		var ctx = realCanvas.getContext('2d');
+	
+
+		Caman(realCanvas, img, function(){
+			this.seive(0);
+			this.render(renderCallback);
 		});
+
+		//do stuff with pixel data
+		function renderCallback(){
+			/* realCanvas should have a b/w image now */
+			
+			var imgData = ctx.getImageData(0,0,realCanvas.width, realCanvas.height);
+			console.log(imgData);
+			var width  = imgData.width;
+			var height = imgData.height;
+			var data = imgData.data;
+			var bitmap = new Array(width);
+			for(var i = 0; i < width; i++){
+				bitmap[i] = new Array(height);
+			}
+
+			// iterate over all pixels based on x and y coordinates
+	        for(var y = 0; y < height; y++) {
+	          // loop through each column
+	          for(var x = 0; x < width; x++) {
+	            var red = data[((width * y) + x) * 4];
+	            bitmap[x][y] = (red > 0) ? 1 : 0;
+	            // var green = data[((width * y) + x) * 4 + 1];
+	            // var blue = data[((width * y) + x) * 4 + 2];
+	            // var alpha = data[((width * y) + x) * 4 + 3];
+	          }
+	        }
+			console.log(bitmap);
+		}
 	}
 	</script>
 </head>
 <body onload="onLoad()">
 	<canvas id="phantomCanvas" style="display:none"></canvas>
 	<canvas id="canvas"></canvas>
+	<canvas id="postCanvas"></canvas>
 
 </body>
 </html>
