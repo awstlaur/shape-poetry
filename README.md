@@ -1,2 +1,3 @@
 # shape-poetry
-Shape poetry generation
+Shape poetry generation.
+Hack@Brown 2015
