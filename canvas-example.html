@@ -4,22 +4,20 @@
 	<script type="text/javascript" src="js/canvg/StackBlur.js"></script>
 	<script type="text/javascript" src="js/canvg/canvg.js"></script>
 	<script type="text/javascript" src="js/camanjs/dist/caman.full.min.js"></script>
+	<script type="text/javascript" src="js/image-processing.js"></script>
 	<script type="text/javascript">
-		function bodyonload() {
-		  //load into #svg_canvas
-		  canvg('svg_canvas', 'svg-files/shapes1.svg');
-		  //capture data url
-		  var canvas = document.getElementById("svg_canvas");
-		  var img = canvas.toDataURL('image/png');
-		  //document.write('<img src="'+img+'"/>');
-		  Caman('#canvas', img, function(){
-		  	
-		  })
-
-		}
+		//load into #svg_canvas
+		canvg('canvas', 'svg-files/shapes1.svg');
+		//capture data url
+		var canvas = document.getElementById("svg_canvas");
+		var img = canvas.toDataURL('image/png');
+		//document.write('<img src="'+img+'"/>');
+		Caman('#canvas', img, function(){
+			
+		});
 	</script>
 </head>
-<body onload="bodyonload()">
+<body onload="">
 	<canvas id="svg_canvas" style="display:none"></canvas>
 	<canvas id="canvas"></canvas>
 
