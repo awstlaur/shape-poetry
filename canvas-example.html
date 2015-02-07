@@ -1,0 +1,25 @@
+<html>
+<head>
+	<script type="text/javascript" src="canvg/rgbcolor.js"></script> 
+	<script type="text/javascript" src="canvg/StackBlur.js"></script>
+	<script type="text/javascript" src="canvg/canvg.js"></script>
+	<script type="text/javascript">
+		function bodyonload() {
+		  //load '../path/to/your.svg' in the canvas with id = 'canvas'
+		  canvg('canvas1', 'svg-files/shapes1.svg');
+		  console.log('hello');
+
+		  //load a svg snippet in the canvas with id = 'drawingArea'
+		  //canvg(document.getElementById('drawingArea'), '<svg>...</svg>')
+
+		  //ignore mouse events and animation
+		  //canvg('canvas', 'file.svg', { ignoreMouse: true, ignoreAnimation: true }) 
+		}
+	</script>
+</head>
+<body onload="bodyonload()">
+	<canvas id="canvas1" width="1000px" height="600px"></canvas>
+	
+
+</body>
+</html>
