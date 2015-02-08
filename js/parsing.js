@@ -1,13 +1,25 @@
 /* gets user input text from a textarea */
-var bitmap = [[0,0,1,1,1,0,0,1,1,1], 
+var bitmap__ = [[0,0,1,1,1,0,0,1,1,1], 
               [0,1,1,0,1,1,1], 
               [0,0,0,0,1,1,1,1], 
               [0,1,1,1],
               [0,1,0,1,1,1,1,1],
               [1,1,0,1,1,0,0,0,0,0]];
 
+window.onload = getInput;              
+
 function getInput() {
     var bitmap = addImage();
+    //transpose(bitmap, bitmap.length);
+    var bCount = 0;
+    for(var i = 0; i < bitmap.length; i++){
+        for(var j = 0; j < (bitmap[i]).length; j++){
+            if(bitmap[i][j] != 0){
+                bCount++;
+            }
+        }
+    }
+    console.log('bCount', bCount);
     $(document).ready(function(){
         var body = "";
         $("#poemArea").keyup(function(){
@@ -25,16 +37,15 @@ function uploadImage() {
     return true;
 }
 
-function addImage() {
-    window.onload = function() {
-        var c = document.getElementById("image");
-        var ctx = c.getContext("2d");
-        var img = document.getElementById("heart");
-        ctx.drawImage(img, 0, 0);
-        var bitmap = canvasToBitmap(document.getElementById("image"), 50);
-        console.log(bitmap);
-        return bitmap;
-    }
+function addImage() {    
+    var c = document.getElementById("image");
+    //console.log(c);
+    var ctx = c.getContext("2d");
+    var img = document.getElementById("heart");
+    ctx.drawImage(img, 0, 0);
+    var bitmap = canvasToBitmap(document.getElementById("image"), 0);
+    console.log(bitmap);
+    return bitmap;
 }
 
 /* writes poem to document based on frame */

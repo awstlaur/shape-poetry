@@ -8,14 +8,17 @@
 	<script type="text/javascript">
 	function onLoad() {	
 		//load svg into a canvas		
-		canvg('phantomCanvas', 'svg-files/shapes3.svg');
+		//canvg('phantomCanvas', 'heart.png');
 		//capture data url
-		var phantomCanvas = document.getElementById('phantomCanvas');
-		var img = phantomCanvas.toDataURL('image/png');
+
+		//var phantomCanvas = document.getElementById('phantomCanvas');
+		//var img = phantomCanvas.toDataURL('image/png');
 
 
 		var realCanvas = document.getElementById('canvas');
 		var ctx = realCanvas.getContext('2d');
+		var img = document.getElementById("heart");
+        ctx.drawImage(img, 0, 0)
 	
 
 		Caman(realCanvas, img, function(){
@@ -27,13 +30,14 @@
 		// ctx.drawImage(img,0,0);
 		//do stuff with pixel data
 		function renderCallback(){
-			var bm = canvasToBitmap(realCanvas, 0);
+			var bm = canvasToBitmap(realCanvas, 130);
 			//console.log('final bitmap', bm);
 		}
 	}
 	</script>
 </head>
 <body onload="onLoad()">
+	<img src="heart.png" style="display:none" id="heart">
 	<canvas id="phantomCanvas" style="display:none"></canvas>
 	<canvas id="canvas"></canvas>
 	

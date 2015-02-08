@@ -12,6 +12,7 @@ function brightnessSeive(rgba, threshold){
 	var white = 255;
 	var black = 0;
 	var bright = brightness(rgba);
+	//console.log('bright: ', bright);
 	// console.log(rgba);
 	// console.log('bright', bright);
 	if(bright > threshold || bright == white){
@@ -42,7 +43,7 @@ function canvasToBitmap(canvas, brightnessTolerance){
 	// 	}
 	// }
 	var testData = ctx.createImageData(width, height);
-	console.log('h,w; ', height, width);
+	// console.log('h,w; ', height, width);
 	// iterate over all pixels based on x and y coordinates
 	for(var y = 0; y < height; y++) {
 	  // loop through each column
@@ -55,23 +56,34 @@ function canvasToBitmap(canvas, brightnessTolerance){
 	    var value = brightnessSeive({r: red, g: green, b: blue, a: alpha}, brightnessTolerance).r;
 	    if(value == 0){
 	    	bitmap[x][y] = 1;
-	    	// testData.data[index]	= 0;
-	    	// testData.data[index + 1] = 0;
-	    	// testData.data[index + 2] = 0;
-	    	// testData.data[index + 3] = alpha;
+	    	testData.data[index]	= 0;
+	    	testData.data[index + 1] = 0;
+	    	testData.data[index + 2] = 0;
+	    	testData.data[index + 3] = alpha;
 	    }else if(value == 255){
 	    	bitmap[x][y] = 0;
-	    	// testData.data[index]	= 255;
-	    	// testData.data[index + 1] = 255;
-	    	// testData.data[index + 2] = 255;
-	    	// testData.data[index + 3] = alpha;
+	    	testData.data[index]	= 255;
+	    	testData.data[index + 1] = 255;
+	    	testData.data[index + 2] = 255;
+	    	testData.data[index + 3] = alpha;
 	    }else{
 	    	bitmap[x][y] = -1;
 	    	throw new Error('seive failure!');
 	    }
 	  }
 	}	    	   
-	    // ctx.putImageData(testData, 0, 0);
+	    ctx.putImageData(testData, 0, 0);
 
 	    return bitmap;
+}
+
+function transpose(arr,arrLen) {
+  for (var i = 0; i < arrLen; i++) {
+    for (var j = 0; j <i; j++) {
+      //swap element[i,j] and element[j,i]
+      var temp = arr[i][j];
+      arr[i][j] = arr[j][i];
+      arr[j][i] = temp;
+    }
+  }
 }
