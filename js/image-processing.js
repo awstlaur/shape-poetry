@@ -72,7 +72,7 @@ function canvasToBitmap(canvas, brightnessTolerance){
 	    }
 	  }
 	}	    	   
-	    ctx.putImageData(testData, 0, 0);
+	    //ctx.putImageData(testData, 0, 0);
 
 	    return bitmap;
 }

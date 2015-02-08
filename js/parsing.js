@@ -6,11 +6,14 @@ var bitmap__ = [[0,0,1,1,1,0,0,1,1,1],
               [0,1,0,1,1,1,1,1],
               [1,1,0,1,1,0,0,0,0,0]];
 
-window.onload = getInput;              
+$('#image').ready(function() {
+    console.log($('#image'));
+    getInput();
+});             
 
 function getInput() {
     var bitmap = addImage();
-    //transpose(bitmap, bitmap.length);
+    transpose(bitmap, bitmap.length);
     var bCount = 0;
     for(var i = 0; i < bitmap.length; i++){
         for(var j = 0; j < (bitmap[i]).length; j++){
@@ -39,11 +42,12 @@ function uploadImage() {
 
 function addImage() {    
     var c = document.getElementById("image");
-    //console.log(c);
+    console.log(c);
     var ctx = c.getContext("2d");
     var img = document.getElementById("heart");
     ctx.drawImage(img, 0, 0);
-    var bitmap = canvasToBitmap(document.getElementById("image"), 0);
+        console.log(ctx.getImageData(0,0,c.width, c.height));
+    var bitmap = canvasToBitmap(c, 0);
     console.log(bitmap);
     return bitmap;
 }
@@ -79,4 +83,4 @@ function writePoem(poem, bitmap, fontSize) {
 }
 
 
-getInput();
+//getInput();
