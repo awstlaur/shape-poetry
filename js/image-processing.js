@@ -14,7 +14,7 @@ function brightnessSeive(rgba, threshold){
 	var bright = brightness(rgba);
 	// console.log(rgba);
 	// console.log('bright', bright);
-	if(bright > threshold || bright == 255){
+	if(bright > threshold || bright == white){
 		rgba.r = white;
 		rgba.g = white;
 		rgba.b = white;
@@ -24,4 +24,54 @@ function brightnessSeive(rgba, threshold){
 		rgba.b = black;
 	}
 	return rgba;
+}
+
+function canvasToBitmap(canvas, brightnessTolerance){
+	var ctx = canvas.getContext('2d');
+	var imgData = ctx.getImageData(0,0,canvas.width, canvas.height);
+	var width  = imgData.width;
+	var height = imgData.height;
+	var data = imgData.data;
+	var bitmap = new Array(width);
+	for(var x = 0; x < width; x++){
+		bitmap[x] = new Array(height);
+	}
+	// for(var y = 0; y < height; y++){
+	// 	for(var x = 0; x < width; x++){
+	// 		bitmap[x][y] = -2;
+	// 	}
+	// }
+	var testData = ctx.createImageData(width, height);
+	console.log('h,w; ', height, width);
+	// iterate over all pixels based on x and y coordinates
+	for(var y = 0; y < height; y++) {
+	  // loop through each column
+	  for(var x = 0; x < width; x++) {
+	  	var index = ((width * y) + x) * 4;
+	    var red = data[index];
+	    var green = data[index + 1];
+	    var blue = data[index + 2];
+	    var alpha = data[index + 3];
+	    var value = brightnessSeive({r: red, g: green, b: blue, a: alpha}, brightnessTolerance).r;
+	    if(value == 0){
+	    	bitmap[x][y] = 1;
+	    	// testData.data[index]	= 0;
+	    	// testData.data[index + 1] = 0;
+	    	// testData.data[index + 2] = 0;
+	    	// testData.data[index + 3] = alpha;
+	    }else if(value == 255){
+	    	bitmap[x][y] = 0;
+	    	// testData.data[index]	= 255;
+	    	// testData.data[index + 1] = 255;
+	    	// testData.data[index + 2] = 255;
+	    	// testData.data[index + 3] = alpha;
+	    }else{
+	    	bitmap[x][y] = -1;
+	    	throw new Error('seive failure!');
+	    }
+	  }
+	}	    	   
+	    // ctx.putImageData(testData, 0, 0);
+
+	    return bitmap;
 }
