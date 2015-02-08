@@ -6,21 +6,9 @@
 	<script type="text/javascript" src="js/camanjs/dist/caman.full.min.js"></script>
 	<script type="text/javascript" src="js/image-processing.js"></script>
 	<script type="text/javascript">
-	function onLoad() {
-		/**filter seize takes threshold value (0-255)
-			and converts image to b/w:
-			for each pixel, pixel white if above threshold,
-				(or if already white)
-			pixel black if below or equal threshold*/
-		Caman.Filter.register('seive', function(threshold){
-			var white = 255;
-			var black = 0;
-			this.process('seive', function(rgba){
-				return brightnessSeive(rgba, threshold);
-			});
-		});
+	function onLoad() {	
 		//load svg into a canvas		
-		canvg('phantomCanvas', 'svg-files/shapes1.svg');
+		canvg('phantomCanvas', 'svg-files/shapes3.svg');
 		//capture data url
 		var phantomCanvas = document.getElementById('phantomCanvas');
 		var img = phantomCanvas.toDataURL('image/png');
@@ -34,56 +22,13 @@
 			//this.seive(0);
 			this.render(renderCallback);
 		});
-
+		// var img = new Image();
+		// img.src = imgURI;
+		// ctx.drawImage(img,0,0);
 		//do stuff with pixel data
 		function renderCallback(){
-			/* realCanvas should have a b/w image now */
-			
-			var imgData = ctx.getImageData(0,0,realCanvas.width, realCanvas.height);
-			// console.log('imgData', imgData.data);
-			var width  = imgData.width;
-			var height = imgData.height;
-			var data = imgData.data;
-			var bitmap = new Array(width);
-			for(var i = 0; i < width; i++){
-				bitmap[i] = new Array(height);
-			}
-
-
-			var testData = ctx.createImageData(width, height);
-
-			// iterate over all pixels based on x and y coordinates
-	        for(var y = 0; y < height; y++) {
-	          // loop through each column
-	          for(var x = 0; x < width; x++) {
-	          	var index = ((width * y) + x) * 4;
-	            var red = data[index];
-	            var green = data[index + 1];
-	            var blue = data[index + 2];
-	            var alpha = data[index + 3];
-	            var value = brightnessSeive({r: red, g: green, b: blue, a: alpha}, 0).r;
-	            if(value == 0){
-	            	bitmap[x][y] = 1;
-	            	testData.data[index]	= 0;
-	            	testData.data[index + 1] = 0;
-	            	testData.data[index + 2] = 0;
-	            	testData.data[index + 3] = alpha;
-	            }else if(value == 255){
-	            	bitmap[x][y] = 0;
-	            	testData.data[index]	= 255;
-	            	testData.data[index + 1] = 255;
-	            	testData.data[index + 2] = 255;
-	            	testData.data[index + 3] = alpha;
-	            }else{
-	            	bitmap[x][y] = -1;
-	            	console.log('seive failure!');
-	            }
-	          }
-	        }
-			//console.log(bitmap);
-			//console.log('testData',testData.data);
-			//ctx.putImageData(testData, 0, 0);
-			//console.log('hi');
+			var bm = canvasToBitmap(realCanvas, 0);
+			//console.log('final bitmap', bm);
 		}
 	}
 	</script>
@@ -91,7 +36,7 @@
 <body onload="onLoad()">
 	<canvas id="phantomCanvas" style="display:none"></canvas>
 	<canvas id="canvas"></canvas>
-	<canvas id="postCanvas"></canvas>
+	
 
 </body>
 </html>
