@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <head> 
     <title>shape poems</title>
+    <script type='text/javascript' src='js/image-processing.js'></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.3.min.js" ></script>    
     <script type='text/javascript' src='js/header.js'></script>
     <script type='text/javascript' src='js/parsing.js'></script>
+
 </head>
 
 <body>
-    <canvas id="image"></canvas>
-    <form onsubmit="return uploadImage()">
-      Enter name: <input type="file" id="imageFile">
-    <input type="submit">
-    </form>
+    <img src="heart.png" style="display:none" id="heart">
+    <canvas id="image">
+    </canvas>
 
     <h1>POEM</h1>
     <textarea id='poem' rows="10" cols="50"></textarea></br>
