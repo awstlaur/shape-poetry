@@ -1,7 +1,8 @@
 //http://www.nbdtech.com/Blog/archive/2008/04/27/Calculating-the-Perceived-Brightness-of-a-Color.aspx
 //brightness  =  sqrt( .241 R2 + .691 G2 + .068 B2 )
 function brightness(rgba){
-	return Math.sqrt(
+	return rgba.a == 0 ? -1 :
+	Math.sqrt(
 		rgba.r * rgba.r * 0.241 + 
 		rgba.g * rgba.g * 0.691 +
 		rgba.b * rgba.b * 0.068
@@ -29,6 +30,11 @@ function brightnessSeive(rgba, threshold){
 
 function canvasToBitmap(canvas, brightnessTolerance){
 	var ctx = canvas.getContext('2d');
+
+	// ctx.rect(0,0,canvas.width, canvas.height);
+	// ctx.fillStyle="white";
+	// ctx.fill();
+
 	var imgData = ctx.getImageData(0,0,canvas.width, canvas.height);
 	var width  = imgData.width;
 	var height = imgData.height;
@@ -53,18 +59,21 @@ function canvasToBitmap(canvas, brightnessTolerance){
 	    var green = data[index + 1];
 	    var blue = data[index + 2];
 	    var alpha = data[index + 3];
+	    if(alpha > 0){ 
+	    	console.log('a');
+	    }
 	    var value = brightnessSeive({r: red, g: green, b: blue, a: alpha}, brightnessTolerance).r;
-	    if(value == 0){
-	    	bitmap[x][y] = 1;
-	    	testData.data[index]	= 0;
-	    	testData.data[index + 1] = 0;
-	    	testData.data[index + 2] = 0;
-	    	testData.data[index + 3] = alpha;
-	    }else if(value == 255){
+	    if(value == 255 || alpha == 0){
 	    	bitmap[x][y] = 0;
 	    	testData.data[index]	= 255;
 	    	testData.data[index + 1] = 255;
 	    	testData.data[index + 2] = 255;
+	    	testData.data[index + 3] = alpha;
+	    }else if(value == 0){
+	    	bitmap[x][y] = 1;
+	    	testData.data[index]	= 0;
+	    	testData.data[index + 1] = 0;
+	    	testData.data[index + 2] = 0;
 	    	testData.data[index + 3] = alpha;
 	    }else{
 	    	bitmap[x][y] = -1;

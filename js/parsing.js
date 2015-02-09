@@ -7,7 +7,7 @@ var bitmap__ = [[0,0,1,1,1,0,0,1,1,1],
               [1,1,0,1,1,0,0,0,0,0]];
 
 $('#image').ready(function() {
-    console.log($('#image'));
+    // console.log($('#image'));
     getInput();
 });             
 
@@ -17,7 +17,7 @@ function getInput() {
     var bCount = 0;
     for(var i = 0; i < bitmap.length; i++){
         for(var j = 0; j < (bitmap[i]).length; j++){
-            if(bitmap[i][j] != 0){
+            if(bitmap[i][j] == 1){
                 bCount++;
             }
         }
